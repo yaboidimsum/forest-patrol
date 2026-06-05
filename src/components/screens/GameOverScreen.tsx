@@ -6,15 +6,15 @@ import { Button } from "@/components/ui/Button";
 
 const endingCopy: Record<string, { title: string; body: string }> = {
   good: {
-    title: "The chain holds.",
+    title: "Good Ending",
     body: "You identified the killer before the final night. The cabin is safe, for now.",
   },
   "killer-survived": {
-    title: "It got out.",
+    title: "Bad Ending",
     body: "The killer slipped through your hands. Day 5 ends in silence.",
   },
   "cabin-empty": {
-    title: "The cabin is empty.",
+    title: "Lonely Ending.",
     body: "You lost everyone. Trust collapsed. There is no one left to question.",
   },
 };

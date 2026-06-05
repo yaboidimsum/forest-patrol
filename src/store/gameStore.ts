@@ -50,6 +50,7 @@ interface GameStore {
   endGame: (ending: EndingType) => void;
   reset: () => void;
   markLinkRevealed: (id: string, linkIds: string[]) => void;
+  revealFurtherQuestion: () => void;
   revealKiller: () => void;
   setLastRadioIndex: (n: number) => void;
 }
@@ -156,6 +157,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
           joinedOnDay: day,
           status: "inside",
           revealedLinkIds: [],
+          furtherQuestionRevealed: false,
         },
       ],
     });
@@ -211,6 +213,18 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 new Set([...c.revealedLinkIds, ...linkIds]),
               ),
             }
+          : c,
+      ),
+    });
+  },
+
+  revealFurtherQuestion: () => {
+    const { selectedCharacterId, cabin } = get();
+    if (!selectedCharacterId) return;
+    set({
+      cabin: cabin.map((c) =>
+        c.characterId === selectedCharacterId
+          ? { ...c, furtherQuestionRevealed: true }
           : c,
       ),
     });

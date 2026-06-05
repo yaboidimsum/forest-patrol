@@ -18,6 +18,7 @@ import { AtmosphericFog } from "@/components/ui/AtmosphericFog";
 import { DustParticles } from "@/components/ui/DustParticles";
 import { MusicCredit } from "@/components/ui/MusicCredit";
 import { useNightTheme } from "@/hooks/useNightTheme";
+import { useMenuTheme } from "@/hooks/useMenuTheme";
 
 const screenTransition = {
   initial: { opacity: 0, scale: 0.98 },
@@ -32,8 +33,10 @@ export default function Page() {
 
   // Theme plays continuously throughout the entire game
   const isThemePlaying = screen !== "menu";
+  const isMenuPlaying = screen === "menu";
 
   useNightTheme(isThemePlaying);
+  useMenuTheme(isMenuPlaying);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -112,8 +115,16 @@ export default function Page() {
 
       {isPaused && <PauseMenu />}
 
-      {/* Music credit — shows during gameplay */}
-      <MusicCredit visible={isThemePlaying} />
+      {/* Music credit — shows during gameplay and menu */}
+      {isMenuPlaying ? (
+        <MusicCredit
+          visible={isMenuPlaying}
+          title="Buried Past"
+          artist="Max Specter"
+        />
+      ) : (
+        <MusicCredit visible={isThemePlaying} />
+      )}
 
       {/* Vignette overlay */}
       <Vignette />

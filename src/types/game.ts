@@ -62,6 +62,7 @@ export interface CabinOccupant {
   joinedOnDay: number;
   status: CabinStatus;
   revealedLinkIds: string[];
+  furtherQuestionRevealed: boolean;
 }
 
 export interface NightVisitor {

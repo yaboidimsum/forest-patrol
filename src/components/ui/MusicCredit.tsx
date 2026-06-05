@@ -4,9 +4,15 @@ import { motion } from "framer-motion";
 
 interface MusicCreditProps {
   visible: boolean;
+  title?: string;
+  artist?: string;
 }
 
-export function MusicCredit({ visible }: MusicCreditProps) {
+export function MusicCredit({
+  visible,
+  title = "Just Asking at Night",
+  artist = "Max Specter",
+}: MusicCreditProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -19,10 +25,10 @@ export function MusicCredit({ visible }: MusicCreditProps) {
           <span className="text-foreground/50">Now Playing</span>
         </p>
         <p className="font-mono text-foreground/90 text-[11px] md:text-sm tracking-tight leading-tight mt-0.5">
-          Just Asking at Night
+          {title}
         </p>
         <p className="font-mono text-foreground/50 text-[10px] md:text-xs tracking-tight leading-tight">
-          by Max Specter
+          by {artist}
         </p>
       </div>
     </motion.div>

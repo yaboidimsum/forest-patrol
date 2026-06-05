@@ -5,6 +5,7 @@ import { useGameStore } from "@/store/gameStore";
 import { getCharacterById } from "@/data/characters";
 import { Button } from "@/components/ui/Button";
 import { PhaseIndicator } from "@/components/ui/PhaseIndicator";
+import { CharacterPortrait } from "@/components/ui/CharacterPortrait";
 import { cn } from "@/lib/cn";
 import { useState } from "react";
 
@@ -18,6 +19,9 @@ export function PeopleList() {
 
   const inside = cabin.filter((c) => c.status === "inside");
   const selected = selectedId ? getCharacterById(selectedId) : null;
+  const selectedOccupant = selectedId
+    ? cabin.find((c) => c.characterId === selectedId)
+    : null;
 
   return (
     <div className="relative w-full h-full flex items-center justify-center px-2 md:px-4 lg:px-8 py-4">
@@ -49,11 +53,10 @@ export function PeopleList() {
                 )}
                 aria-label={character.name}
               >
-                <img
-                  src={`/assets/images/character/${character.name}.png`}
+                <CharacterPortrait
+                  name={character.name}
                   alt={character.name}
                   className="size-[56px] md:size-[100px] lg:size-[180px] object-contain"
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                 />
               </motion.button>
             );
@@ -94,11 +97,10 @@ export function PeopleList() {
             {selected ? (
               <>
                 <div className="flex items-center gap-4">
-                  <img
-                    src={`/assets/images/character/${selected.name}.png`}
+                  <CharacterPortrait
+                    name={selected.name}
                     alt={selected.name}
                     className="w-24 h-24 md:w-32 md:h-32 object-contain shrink-0"
-                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                   />
                   <div>
                     <h2 className="font-mono text-white text-fluid-heading tracking-tight">
@@ -119,10 +121,12 @@ export function PeopleList() {
                 </div>
                 <div className="flex flex-col gap-2 md:gap-4">
                   <h3 className="font-mono text-white text-fluid-heading tracking-tight">
-                    Further Question
+                    Further Information
                   </h3>
                   <p className="font-mono text-[#7ab0a4] text-fluid-body tracking-tight leading-snug">
-                    {selected.furtherQuestion}
+                    {selectedOccupant?.furtherQuestionRevealed
+                      ? selected.furtherQuestion
+                      : "Empty"}
                   </p>
                 </div>
               </>

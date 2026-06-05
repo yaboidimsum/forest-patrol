@@ -7,6 +7,7 @@ import { getCharacterById } from "@/data/characters";
 import { DialogueBox } from "@/components/ui/DialogueBox";
 import { Button } from "@/components/ui/Button";
 import { PhaseIndicator } from "@/components/ui/PhaseIndicator";
+import { CharacterPortrait } from "@/components/ui/CharacterPortrait";
 
 export function NightPhase() {
   const currentVisitorId = useGameStore((s) => s.currentVisitorId);
@@ -142,11 +143,10 @@ export function NightPhase() {
       <div className="w-full h-full flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12">
         {/* Character portrait — left side */}
         <div className="relative w-[50vw] max-w-[500px] lg:max-w-[600px] h-[50vh] md:h-[85vh] flex items-end justify-center">
-          <img
-            src={`/assets/images/character/${character.name}.png`}
+          <CharacterPortrait
+            name={character.name}
             alt={character.name}
             className="w-full h-full object-contain object-bottom"
-            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
           />
         </div>
 
