@@ -140,10 +140,11 @@ export function IntegrationScreen() {
     }
 
     setShowActions(false);
-    markLinkRevealed(
-      character.id,
-      character.chainLinks.map((l) => `${l.fromId}->${l.toId}`),
-    );
+    // Only reveal the link tied to the current dialogue node
+    const linkId = dialogue?.revealsLinkId;
+    if (linkId) {
+      markLinkRevealed(character.id, [linkId]);
+    }
     if (dialogueIndex < character.integrationDialogue.length - 1) {
       setDialogueIndex(dialogueIndex + 1);
     } else {
