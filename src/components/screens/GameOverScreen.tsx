@@ -14,15 +14,31 @@ const endingCopy: Record<string, { title: string; body: string }> = {
     body: "The killer slipped through your hands. Day 5 ends in silence.",
   },
   "cabin-empty": {
-    title: "Lonely Ending.",
+    title: "Coward's Ending",
     body: "You lost everyone. Trust collapsed. There is no one left to question.",
+  },
+};
+
+const emptyCabinShame: Record<number, { subtitle: string }> = {
+  0: {
+    subtitle:
+      "You turned away every survivor. Alone in the dark, you have no witnesses, no information, and no one to blame but yourself. The forest does not forgive cowards.",
+  },
+  1: {
+    subtitle:
+      "You admitted survivors, then cast them all out. Desperate to avoid choosing, you chose nothing. A sheriff who protects no one is worse than the killer they fear.",
   },
 };
 
 export function GameOverScreen() {
   const ending = useGameStore((s) => s.ending);
   const reset = useGameStore((s) => s.reset);
+  const peopleAdmittedCount = useGameStore((s) => s.peopleAdmittedCount);
   const copy = ending ? endingCopy[ending] : endingCopy.good;
+
+  const isEmptyCabin = ending === "cabin-empty";
+  const shameKey = peopleAdmittedCount > 0 ? 1 : 0;
+  const shame = isEmptyCabin ? emptyCabinShame[shameKey] : null;
 
   return (
     <div className="relative w-full h-full flex items-center justify-center px-4 md:px-8 py-8">
@@ -44,14 +60,24 @@ export function GameOverScreen() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.6 }}
-          className="font-mono text-[#7ab0a4] text-fluid-body leading-snug tracking-tight mb-6 md:mb-12"
+          className="font-mono text-[#7ab0a4] text-fluid-body leading-snug tracking-tight mb-4 md:mb-6"
         >
           {copy.body}
         </motion.p>
+        {shame && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+            className="font-mono text-[#c0392b] text-fluid-body leading-snug tracking-tight mb-6 md:mb-12"
+          >
+            {shame.subtitle}
+          </motion.p>
+        )}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.9, duration: 0.4 }}
+          transition={{ delay: 1.1, duration: 0.4 }}
         >
           <Button onClick={reset} ariaLabel="Return to main menu">
             Return to Menu

@@ -30,6 +30,7 @@ interface GameStore {
   killerRevealed: boolean;
   killerSurvived: boolean;
   lastRadioIndex: number;
+  peopleAdmittedCount: number;
 
   setScreen: (screen: GameScreen) => void;
   startGame: () => void;
@@ -74,6 +75,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   killerRevealed: false,
   killerSurvived: false,
   lastRadioIndex: 0,
+  peopleAdmittedCount: 0,
 
   setScreen: (screen) => set({ screen }),
 
@@ -92,6 +94,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       killerSurvived: false,
       ending: null,
       lastRadioIndex: 0,
+      peopleAdmittedCount: 0,
     });
   },
 
@@ -142,7 +145,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   admitCurrent: () => {
-    const { day, currentVisitorId, cabin } = get();
+    const { day, currentVisitorId, cabin, peopleAdmittedCount } = get();
     if (!currentVisitorId) return;
 
     // Always record the outcome so finishNight can proceed
@@ -160,6 +163,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
           furtherQuestionRevealed: false,
         },
       ],
+      peopleAdmittedCount: peopleAdmittedCount + 1,
     });
   },
 
@@ -292,6 +296,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       killerRevealed: false,
       killerSurvived: false,
       lastRadioIndex: 0,
+      peopleAdmittedCount: 0,
     });
   },
 }));

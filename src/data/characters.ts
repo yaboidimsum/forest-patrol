@@ -10,43 +10,54 @@ export const characters: Character[] = [
       "I was hiking alone when the trees started moving toward me. Saw a tall figure, Roy, running in the same direction. We stuck together until the cabin came into view.",
     furtherQuestion:
       "Roy said he lost a friend named Ara back at the river. He looked terrified. Whatever he saw. I don't want to see it too.",
-      doorDialogue: [
-        {
-          id: "mike-door-1",
-          text: "Hello? Is someone in there? The forest is not safe tonight.",
-          tone: "friendly",
-        },
-        {
-          id: "mike-door-2",
-          text: "I was hiking alone when the trees started moving toward me. Saw a tall figure running in the same direction.",
-          tone: "urgent",
-          revealsLinkId: "mike->roy",
-        },
-        {
-          id: "mike-door-3",
-          text: "We stuck together until the cabin came into view. He said he lost a friend named Ara back at the river. He looked terrified.",
-          tone: "urgent",
-          revealsLinkId: "mike->ara",
-        },
-        {
-          id: "mike-door-4",
-          text: "Please, let me in. Whatever he saw. I don't want to see it too.",
-          tone: "friendly",
-        },
-      ],
-      integrationDialogue: [
-        {
-          id: "mike-int-1",
-          text: "What do you want to know?",
-          tone: "cooperative",
-        },
-        {
-          id: "mike-int-2",
-          text: "Roy ran north toward the river. Last I saw him he was with a woman, Ara I think.",
-          tone: "cooperative",
-          revealsLinkId: "mike->ara",
-        },
-      ],
+    doorDialogue: [
+      {
+        id: "mike-door-1",
+        text: "Hello? Is someone in there? The forest is not safe tonight.",
+        tone: "friendly",
+      },
+      {
+        id: "mike-door-2",
+        text: "I was hiking alone when the trees started moving toward me. Saw a tall figure running in the same direction.",
+        tone: "urgent",
+        revealsLinkId: "mike->roy",
+      },
+      {
+        id: "mike-door-3",
+        text: "We stuck together until the cabin came into view. He said he lost a friend named Ara back at the river. He looked terrified.",
+        tone: "urgent",
+        revealsLinkId: "mike->ara",
+      },
+      {
+        id: "mike-door-4",
+        text: "Please, let me in. Whatever he saw. I don't want to see it too.",
+        tone: "friendly",
+      },
+    ],
+    integrationDialogue: [
+      {
+        id: "mike-int-1",
+        text: "What do you want to know?",
+        tone: "cooperative",
+      },
+      {
+        id: "mike-int-2",
+        text: "Roy kept looking back. Said he heard Ara calling his name from the trees. But Ara was already gone by then.",
+        tone: "urgent",
+        revealsLinkId: "mike->ara",
+      },
+      {
+        id: "mike-int-3",
+        text: "The creature... Roy said he saw it standing where Ara should have been. Same jacket. Same hair. But the face... the face was wrong.",
+        tone: "urgent",
+        revealsLinkId: "mike->creature",
+      },
+      {
+        id: "mike-int-4",
+        text: "I asked him if we should go back. He grabbed my arm so hard it bruised. Said never go back for anyone in this forest.",
+        tone: "cooperative",
+      },
+    ],
     kickReaction:
       "Wait. I know things. I know about the creature. You can't just send me back out there!",
     turnAwayReaction:
@@ -85,43 +96,55 @@ export const characters: Character[] = [
       "I lost my friend Ara at the river bend. One moment she was behind me, the next, gone. Only the scratching in the trees remained.",
     furtherQuestion:
       "Ara knew something about the creature. She told me it mimics people. I saw something in the dark that moved like her, but it didn't walk right.",
-      doorDialogue: [
-        {
-          id: "roy-door-1",
-          text: "Open the door! Open the door now!",
-          tone: "urgent",
-        },
-        {
-          id: "roy-door-2",
-          text: "I lost my friend Ara at the river bend. One moment she was behind me, the next, gone.",
-          tone: "urgent",
-          revealsLinkId: "roy->ara",
-        },
-        {
-          id: "roy-door-3",
-          text: "Only the scratching in the trees remained. Ara knew something about the creature. She told me it mimics people.",
-          tone: "urgent",
-          revealsLinkId: "roy->creature",
-        },
-        {
-          id: "roy-door-4",
-          text: "I saw something in the dark that moved like her, but it didn't walk right. Please... I'm next if you don't let me in.",
-          tone: "grateful",
-        },
-      ],
-      integrationDialogue: [
-        {
-          id: "roy-int-1",
-          text: "Sup sheriff. I just want to rest.",
-          tone: "casual",
-        },
-        {
-          id: "roy-int-2",
-          text: "Ara and I split up at the river. She went east, I went west. Big mistake.",
-          tone: "evasive",
-          revealsLinkId: "roy->ara",
-        },
-      ],
+    doorDialogue: [
+      {
+        id: "roy-door-1",
+        text: "Open the door! Open the door now!",
+        tone: "urgent",
+      },
+      {
+        id: "roy-door-2",
+        text: "I lost my friend Ara at the river bend. One moment she was behind me, the next, gone.",
+        tone: "urgent",
+        revealsLinkId: "roy->ara",
+      },
+      {
+        id: "roy-door-3",
+        text: "Only the scratching in the trees remained. Ara knew something about the creature. She told me it mimics people.",
+        tone: "urgent",
+        revealsLinkId: "roy->creature",
+      },
+      {
+        id: "roy-door-4",
+        text: "I saw something in the dark that moved like her, but it didn't walk right. Please... I'm next if you don't let me in.",
+        tone: "grateful",
+      },
+    ],
+    integrationDialogue: [
+      {
+        id: "roy-int-1",
+        text: "Sup sheriff. I just want to rest.",
+        tone: "casual",
+      },
+      {
+        id: "roy-int-2",
+        text: "The river was loud that night. I turned around and she was gone. But the scratching... it sounded like it was spelling something.",
+        tone: "urgent",
+        revealsLinkId: "roy->ara",
+      },
+      {
+        id: "roy-int-3",
+        text: "Three nights I heard it. Scratch. Scratch. The pattern was... it was Ara's name. Over and over. Like it was learning how to say it.",
+        tone: "urgent",
+        revealsLinkId: "roy->creature",
+      },
+      {
+        id: "roy-int-4",
+        text: "I saw it on the fourth night. Standing on the ridge where we used to watch sunsets. Wearing her jacket. Waving me over. But Ara never waved with her left hand.",
+        tone: "grateful",
+        revealsLinkId: "roy->creature",
+      },
+    ],
     kickReaction:
       "You can't do this. Ara is still out there... or what's left of her. Please. I'll die.",
     turnAwayReaction:
@@ -186,9 +209,21 @@ export const characters: Character[] = [
       },
       {
         id: "ara-int-2",
-        text: "Zen is paranoid. She thinks everyone is compromised. Maybe she has a point.",
-        tone: "evasive",
-        revealsLinkId: "ara->zen",
+        text: "Night one, it stood at the tree line for six hours. Didn't move. Didn't blink. Just... watched the cabin.",
+        tone: "cooperative",
+        revealsLinkId: "ara->creature",
+      },
+      {
+        id: "ara-int-3",
+        text: "Night two, it disappeared at midnight. I tracked its footprints — they stopped mid-stride. Like it just... floated away.",
+        tone: "cooperative",
+        revealsLinkId: "ara->creature",
+      },
+      {
+        id: "ara-int-4",
+        text: "Night three, I saw it turn its head. All the way around. And it smiled. Not a human smile. Too many teeth. That's when I ran.",
+        tone: "urgent",
+        revealsLinkId: "ara->creature",
       },
     ],
     kickReaction:
@@ -256,9 +291,21 @@ export const characters: Character[] = [
       },
       {
         id: "zen-int-2",
-        text: "Isabel has been feeding the radio false reports. The chain she keeps mentioning. It's a loop. It leads back to her.",
-        tone: "cooperative",
+        text: "Three days before the lockdown, Isabel radioed in a sighting at the north ridge. But I was there. There was nothing. She manufactured it.",
+        tone: "aggressive",
         revealsLinkId: "zen->isabel",
+      },
+      {
+        id: "zen-int-3",
+        text: "Every survivor who passes through her cabin ends up on her 'records.' Then they end up dead. The pattern is too clean to be coincidence.",
+        tone: "aggressive",
+        revealsLinkId: "zen->isabel",
+      },
+      {
+        id: "zen-int-4",
+        text: "She asked about Ara specifically. By name. Before Ara even told anyone she was coming. How does someone know a name they've never heard?",
+        tone: "aggressive",
+        revealsLinkId: "zen->ara",
       },
     ],
     kickReaction:
@@ -331,9 +378,20 @@ export const characters: Character[] = [
       },
       {
         id: "isabel-int-2",
-        text: "I have records. Every visitor, every testimonial, every death. Ara's name is in there too.",
-        tone: "cooperative",
-        revealsLinkId: "isabel->ara",
+        text: "The records go back three years. Every disappearance. Every 'creature sighting.' You want to know the truth? Most of those people never saw anything. They just... vanished.",
+        tone: "hostile",
+        revealsLinkId: "isabel->creature",
+      },
+      {
+        id: "isabel-int-3",
+        text: "The south patrol was the last to question my reports. Look where they are now. Silence on the radio for six hours. Convenient, don't you think?",
+        tone: "hostile",
+        revealsLinkId: "isabel->creature",
+      },
+      {
+        id: "isabel-int-4",
+        text: "I keep records because someone has to. The forest takes. I simply... document what remains. You should be grateful you have my eyes out here.",
+        tone: "hostile",
       },
     ],
     kickReaction:
@@ -404,8 +462,27 @@ export const characters: Character[] = [
         text: "I don't know anything. I just ran.",
         tone: "evasive",
       },
+      {
+        id: "hiker-int-2",
+        text: "Wait... there was one thing. Two nights ago, I heard a radio crackle from that north cabin. A woman's voice. She was asking someone about their 'progress.'",
+        tone: "cooperative",
+        revealsLinkId: "hiker->isabel",
+      },
+      {
+        id: "hiker-int-3",
+        text: "The voice on the other end sounded... wrong. Too slow. Like someone reading from a script they didn't understand. Then static. Then nothing.",
+        tone: "cooperative",
+        revealsLinkId: "hiker->isabel",
+      },
+      {
+        id: "hiker-int-4",
+        text: "I tried to get closer the next morning. The door was locked. But there were footprints. Fresh ones. Going in. None coming out.",
+        tone: "cooperative",
+        revealsLinkId: "hiker->isabel",
+      },
     ],
-    kickReaction: "No... please, I just want to see my family again. Don't send me back out there!",
+    kickReaction:
+      "No... please, I just want to see my family again. Don't send me back out there!",
     turnAwayReaction:
       "I understand. I wouldn't trust me either. Goodbye, sheriff.",
     admitReaction:
@@ -466,6 +543,24 @@ export const characters: Character[] = [
         text: "The tracks by the river don't match any known animal. And that jacket with 'Ara' on it... something happened there.",
         tone: "cooperative",
         revealsLinkId: "scout->ara",
+      },
+      {
+        id: "scout-int-2",
+        text: "The south patrol's last transmission was garbled. But I caught one word repeated three times: 'Isabel.' Then gunfire. Then silence.",
+        tone: "cooperative",
+        revealsLinkId: "scout->creature",
+      },
+      {
+        id: "scout-int-3",
+        text: "Those tracks I mentioned? The humanoid ones. They had claws. Not paws. Claws. And they walked heel-to-toe, like a person trying to be quiet.",
+        tone: "cooperative",
+        revealsLinkId: "scout->creature",
+      },
+      {
+        id: "scout-int-4",
+        text: "We found a radio near the riverbank. Tuned to the north cabin frequency. Last message received: 'Come home, Ara. I've been waiting.'",
+        tone: "cooperative",
+        revealsLinkId: "scout->creature",
       },
     ],
     kickReaction:
@@ -536,8 +631,27 @@ export const characters: Character[] = [
         tone: "cooperative",
         revealsLinkId: "wanderer->ara",
       },
+      {
+        id: "wanderer-int-2",
+        text: "Mike told me something strange before we split. He said he heard Ara's voice calling from the ridge. But it was... echoey. Like it was coming from inside a cave. There are no caves on that ridge.",
+        tone: "cooperative",
+        revealsLinkId: "wanderer->mike",
+      },
+      {
+        id: "wanderer-int-3",
+        text: "I found a notebook near where we met. Belonged to someone named Zen. Pages about radio frequencies and 'the woman in the north cabin.' The last entry said: 'She knows all our names.'",
+        tone: "cooperative",
+        revealsLinkId: "wanderer->mike",
+      },
+      {
+        id: "wanderer-int-4",
+        text: "Mike gave me something before he ran. A photograph. Ara standing by the river. But there's a shadow behind her that doesn't match any tree. And the shadow has fingers. Too many fingers.",
+        tone: "cooperative",
+        revealsLinkId: "wanderer->ara",
+      },
     ],
-    kickReaction: "So it really was just a dream. A nightmare I won't wake up from.",
+    kickReaction:
+      "So it really was just a dream. A nightmare I won't wake up from.",
     turnAwayReaction:
       "Back to the trees, then. Maybe I'll find Mike. Or what he left behind.",
     admitReaction:

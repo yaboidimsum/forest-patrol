@@ -92,4 +92,5 @@ export interface GameState {
   cabin: CabinOccupant[];
   nightQueue: NightVisitor[];
   killerRevealed: boolean;
+  peopleAdmittedCount: number;
 }

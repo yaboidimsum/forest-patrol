@@ -27,7 +27,9 @@ export function WindowTransition() {
 
   useEffect(() => {
     const pool = phase === "night" ? nightNarrations : dawnNarrations;
-    setNarration(pool[Math.floor(Math.random() * pool.length)]);
+    // Deterministic selection based on day to avoid hydration flicker
+    const index = (day * 7 + pool.length) % pool.length;
+    setNarration(pool[index]);
   }, [day, phase]);
 
   const next = () => {

@@ -11,11 +11,11 @@ import { CharacterPortrait } from "@/components/ui/CharacterPortrait";
 import { verifyKillerGuess } from "@/lib/gameLogic";
 
 const silenceTexts = [
-  "They sit in silence, avoiding your gaze.",
-  "They don't want to talk about it.",
-  "They shake their head and stare at the floor.",
-  '"Not now," they mutter.',
-  "They cross their arms and say nothing.",
+  "[...]",
+  "[I don't want to talk about it.]",
+  "[...]",
+  "[Not now.]",
+  "[Please, just leave me alone.]",
 ];
 
 function getSilenceText(seed: string): string {
@@ -129,13 +129,15 @@ export function IntegrationScreen() {
     }
 
     if (occupant && !occupant.furtherQuestionRevealed) {
-      const text =
-        character.role === "core"
-          ? character.furtherQuestion
-          : getSilenceText(character.id);
+      const isCore = character.role === "core";
+      const text = isCore
+        ? character.furtherQuestion
+        : getSilenceText(character.id);
       setSpecialText(text);
       setShowActions(false);
-      revealFurtherQuestion();
+      if (isCore) {
+        revealFurtherQuestion();
+      }
       return;
     }
 

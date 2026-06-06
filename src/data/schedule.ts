@@ -10,10 +10,23 @@ const coreSchedule: Record<number, string[]> = {
 
 const supportingPool = ["wanderer", "hiker", "scout"];
 
+// Seeded pseudo-random generator to avoid hydration mismatches
+// between server and client render
+function createSeededRandom(seed: number) {
+  let s = seed;
+  return () => {
+    s = (s * 16807 + 0) % 2147483647;
+    return (s - 1) / 2147483646;
+  };
+}
+
+const GAME_SEED = 42;
+const rng = createSeededRandom(GAME_SEED);
+
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rng() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
@@ -39,7 +52,7 @@ export function generateFullSchedule(): FullSchedule {
     // Only pick from supporting characters not yet used this game
     const available = supportingPool.filter((id) => !usedSupporting.includes(id));
     const shuffled = shuffle(available);
-    const count = Math.floor(Math.random() * Math.min(3, available.length + 1)); // 0 to available.length
+    const count = Math.floor(rng() * Math.min(3, available.length + 1)); // 0 to available.length
     const extras = shuffled.slice(0, count);
 
     usedSupporting.push(...extras);
