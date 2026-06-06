@@ -15,21 +15,30 @@ export function RadioScreen() {
   const dayEvents = radioEvents.filter((e) => e.day === day);
   const [index, setIndex] = useState(0);
   const [scrambled, setScrambled] = useState("");
+  const [showDayPasses, setShowDayPasses] = useState(false);
+  const finishDay = useGameStore((s) => s.finishDay);
 
   const event = getRadioEvent(day, index);
 
   useEffect(() => {
     if (!event) return;
     let i = 0;
+    let timeoutId: number;
     const id = window.setInterval(() => {
       i += 2;
       setScrambled(event.transcript.slice(0, i));
       if (i >= event.transcript.length) {
         window.clearInterval(id);
+        timeoutId = window.setTimeout(() => {
+          onNext();
+        }, 3000); // 3 seconds delay before advancing
       }
     }, 18);
-    return () => window.clearInterval(id);
-  }, [event]);
+    return () => {
+      window.clearInterval(id);
+      window.clearTimeout(timeoutId);
+    };
+  }, [event]); // event changes on every index, so onNext closure will have the correct current index
 
   const onNext = () => {
     if (index < dayEvents.length - 1) {
@@ -37,15 +46,42 @@ export function RadioScreen() {
       setIndex(next);
       setLastRadioIndex(next);
     } else {
-      advanceToPeopleList();
+      if (day === 1) {
+        setShowDayPasses(true);
+      } else {
+        advanceToPeopleList();
+      }
     }
   };
+
+  if (showDayPasses) {
+    return (
+      <div className="relative w-full h-full flex flex-col items-center justify-center gap-6 px-4">
+        <img
+          src="/assets/images/OutsideViewMorning.png"
+          alt=""
+          aria-hidden
+          className="absolute inset-0 w-full h-full object-cover -z-10"
+        />
+        <div className="absolute inset-0 z-10 pointer-events-none bg-black/60" />
+        <PhaseIndicator day={day} phase="day" />
+        <div className="z-20 flex flex-col items-center gap-6 mt-12">
+          <p className="font-mono text-foreground/80 text-[clamp(1.2rem,2vw,1.5rem)] text-center">
+            "Day passes with no visitors."
+          </p>
+          <Button onClick={() => finishDay()} ariaLabel="Next Day">
+            Next Day
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   if (!event) {
     return (
       <div className="relative w-full h-full flex items-center justify-center px-4">
         <PhaseIndicator day={day} phase="day" />
-        <Button onClick={advanceToPeopleList} ariaLabel="Continue">
+        <Button onClick={day === 1 ? finishDay : advanceToPeopleList} ariaLabel="Continue">
           Continue
         </Button>
       </div>
@@ -96,12 +132,6 @@ export function RadioScreen() {
         <p className="font-mono text-muted-fg text-fluid-small">
           Broadcast {index + 1} / {dayEvents.length}
         </p>
-        <Button
-          onClick={onNext}
-          ariaLabel={index < dayEvents.length - 1 ? "Next broadcast" : "Continue"}
-        >
-          {index < dayEvents.length - 1 ? "Next" : "Continue"}
-        </Button>
       </div>
     </div>
   );

@@ -5,17 +5,15 @@ export const radioEvents: RadioEvent[] = [
     day: 1,
     index: 0,
     transcript:
-      "All units, this is Ranger Base. Lockdown remains in effect. Do not approach the north perimeter. Repeat: do not approach the north perimeter.",
-    creatureDescription:
-      "Reports from the north perimeter describe a tall figure, roughly humanoid, observed between tree lines after sundown.",
+      "Sunny day in Forester Hills! The weather is sure nice to take in the forest air. But be careful, hikers!",
+    creatureDescription: "No anomalies detected yet.",
   },
   {
     day: 1,
     index: 1,
     transcript:
-      "Survivor located three kilometers south of the post. Requesting immediate extraction. Condition: critical.",
-    creatureDescription:
-      "The survivor reports a guttural clicking sound preceding each sighting. The pattern repeats every 14 seconds.",
+      "With recent accidents happening at night, we urge you to not stay too late in the forest. If you need assistance, the forest sheriff will help you at his post.",
+    creatureDescription: "No anomalies detected yet.",
   },
   {
     day: 2,
