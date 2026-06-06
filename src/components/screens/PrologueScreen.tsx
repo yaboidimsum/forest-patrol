@@ -1,103 +1,97 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useGameStore } from "@/store/gameStore";
+import { DialogueBox } from "@/components/ui/DialogueBox";
+import { Button } from "@/components/ui/Button";
+import { PhaseIndicator } from "@/components/ui/PhaseIndicator";
 
-const prologueSlides = [
+const day1Dialogues = [
   {
-    image: "/assets/images/Prologue-1.png",
-    text: `The National Park of **(REDACTED)** is under emergency lockdown. Unexplained disappearances. No patterns. No answers.`,
+    speaker: "Chief",
+    text: "Thanks for being here on a short notice.",
   },
   {
-    image: "/assets/images/Prologue-2.png",
-    text: `You are stationed at a remote ranger post. Help those who are lost in the woods`,
+    speaker: "Chief",
+    text: "As you might have heard, the previous sheriff had an accident while on patrol.",
+  },
+  {
+    speaker: "Chief",
+    text: "He is on the town clinic for now, and he should be back in 5 days.",
+  },
+  {
+    speaker: "You",
+    text: "What a poor fella.",
+  },
+  {
+    speaker: "Chief",
+    text: "Yes, it is unfortunate.",
+  },
+  {
+    speaker: "You",
+    text: "So, what will I be doing?",
+  },
+  {
+    speaker: "Chief",
+    text: "Your job is to watch the area, day and night.",
+  },
+  {
+    speaker: "Chief",
+    text: "There might be hikers here and there who goes into the forest sometimes.",
+  },
+  {
+    speaker: "Chief",
+    text: "Keep them safe, and offer shelter when they need it.",
+  },
+  {
+    speaker: "Chief",
+    text: "And for you, we can't afford you to have an accident.",
+  },
+  {
+    speaker: "Chief",
+    text: "Godspeed, sheriff.",
+  },
+  {
+    speaker: "You",
+    text: "Thanks, Chief.",
   },
 ];
 
-function RichText({ text }: { text: string }) {
-  const parts = text.split(/(\*\*.*?\*\*)/g);
-  return (
-    <>
-      {parts.map((part, i) => {
-        if (part.startsWith("**") && part.endsWith("**")) {
-          return (
-            <strong key={i} className="text-white">
-              {part.slice(2, -2)}
-            </strong>
-          );
-        }
-        return <span key={i}>{part}</span>;
-      })}
-    </>
-  );
-}
-
 export function PrologueScreen() {
-  const [slideIdx, setSlideIdx] = useState(0);
-  const [typed, setTyped] = useState("");
+  const [dialogueIdx, setDialogueIdx] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
 
-  const advanceToWindowTransition = useGameStore(
-    (s) => s.advanceToWindowTransition,
-  );
+  // We use the store to advance
+  const advanceToRadio = useGameStore((s) => s.advanceToRadio);
 
-  const slide = prologueSlides[slideIdx];
+  const dialogue = day1Dialogues[dialogueIdx];
 
-  useEffect(() => {
-    setTyped("");
-    setIsTyping(true);
-    let i = 0;
-    const id = window.setInterval(() => {
-      i += 1;
-      const next = slide.text.slice(0, i);
-      setTyped(next);
-      if (i >= slide.text.length) {
-        window.clearInterval(id);
-        setIsTyping(false);
-      }
-    }, 18);
-    return () => window.clearInterval(id);
-  }, [slideIdx, slide.text]);
+  const handleComplete = () => {
+    setIsTyping(false);
+  };
 
-  const handleClick = useCallback(() => {
-    if (isTyping) {
-      setTyped(slide.text);
-      setIsTyping(false);
-      return;
-    }
-    if (slideIdx < prologueSlides.length - 1) {
-      setSlideIdx((s) => s + 1);
+  const handleNextDialogue = () => {
+    if (isTyping) return; // Wait for typing to finish before advancing
+    if (dialogueIdx < day1Dialogues.length - 1) {
+      setDialogueIdx((prev) => prev + 1);
+      setIsTyping(true);
     } else {
-      advanceToWindowTransition();
+      advanceToRadio();
     }
-  }, [isTyping, slide.text, slideIdx, advanceToWindowTransition]);
+  };
 
   return (
-    <div
-      className="relative w-full h-full overflow-hidden cursor-pointer"
-      onClick={handleClick}
-      role="button"
-      aria-label="Continue"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") handleClick();
-      }}
-    >
-      {/* Background images — layered absolutely for smooth crossfade */}
-      <AnimatePresence initial={false}>
-        <motion.img
-          key={slideIdx}
-          src={slide.image}
-          alt=""
-          aria-hidden
-          className="absolute inset-0 w-full h-full object-cover"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: "easeInOut" }}
-        />
-      </AnimatePresence>
+    <div className="relative w-full h-full overflow-hidden flex items-center justify-center px-4 md:px-8 lg:px-12">
+      {/* Background */}
+      <img
+        src="/assets/images/Background.png"
+        alt=""
+        aria-hidden
+        className="absolute inset-0 w-full h-full object-cover -z-10"
+      />
+
+      <PhaseIndicator day={1} phase="day" />
 
       {/* Tent interior frame */}
       <div className="absolute inset-0 z-10 pointer-events-none">
@@ -131,7 +125,6 @@ export function PrologueScreen() {
         />
       </div>
 
-      {/* Vignette */}
       <div
         aria-hidden
         className="absolute inset-0 z-20 pointer-events-none"
@@ -141,58 +134,25 @@ export function PrologueScreen() {
         }}
       />
 
-      {/* Animated overlay */}
-      <motion.div
-        className="absolute inset-0 z-20 mix-blend-overlay bg-foreground/5 pointer-events-none"
-        animate={{ opacity: [0.03, 0.1, 0.03] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Text content */}
-      <div className="absolute bottom-[clamp(4rem,12vh,8rem)] left-1/2 -translate-x-1/2 z-30 w-full max-w-[90vw] md:max-w-[800px] flex flex-col items-center gap-4">
-        <motion.div
-          key={slideIdx}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="bg-black/90 p-5 md:p-7 w-full"
-        >
-          <p className="font-mono text-foreground text-[clamp(0.9rem,2.2vw,1.35rem)] leading-relaxed tracking-tight whitespace-pre-line">
-            <RichText text={typed} />
-            {isTyping && (
-              <motion.span
-                className="inline-block w-[0.5em] h-[1em] bg-current ml-1 align-middle"
-                animate={{ opacity: [1, 0] }}
-                transition={{
-                  duration: 0.5,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                  ease: "easeInOut",
-                }}
+      <div className="flex flex-col gap-4 md:gap-[26px] w-full max-w-[649px] z-30 mt-auto mb-12">
+        <div onClick={handleNextDialogue} className="cursor-pointer">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={dialogueIdx}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.3, ease: [0.215, 0.61, 0.355, 1] }}
+            >
+              <DialogueBox
+                speakerName={dialogue.speaker === "System" ? undefined : dialogue.speaker}
+                text={dialogue.text}
+                onComplete={handleComplete}
+                className={dialogue.speaker === "System" ? "text-center text-foreground/70" : ""}
               />
-            )}
-          </p>
-        </motion.div>
-
-        {/* Prompt */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-          className="bg-black/90 px-6 py-2"
-        >
-          <motion.p
-            className="font-mono text-foreground/70 text-[clamp(0.75rem,1.5vw,1.1rem)] leading-tight tracking-tight text-center"
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{
-              duration: 2.4,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            Click to continue
-          </motion.p>
-        </motion.div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );
